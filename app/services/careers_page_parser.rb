@@ -1,12 +1,12 @@
 class CareersPageParser
   Posting = Struct.new(:title, :description, :url, :part_time, :remote) do
     def part_time?
-      @part_time = true if @part_time.nil?
+      @part_time = false if @part_time.nil?
       @part_time
     end
 
     def remote?
-      @remote = true if @remote.nil?
+      @remote = false if @remote.nil?
       @remote
     end
   end

@@ -16,7 +16,7 @@ class CompanyWebsite
       postings = extract_job_postings(url)
       postings.each do |posting|
         cfc.create_posting(
-          :title => posting.text,
+          :title => posting.title,
           :description => posting.description,
           :website => posting.url,
           :remote => posting.remote?,
