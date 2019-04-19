@@ -5,7 +5,7 @@ class ScrapeCompanyWebsiteJob < ApplicationJob
 
   def perform(url)
     CompanyWebsite.import_jobs(url)
-  rescue CompanyWebsite::PageNotFound => e
+  rescue CompanyWebsite::CareersPageNotFound => e
     # Don't retry these errors
     logger.error("Cannot import jobs for website '#{url}': #{e}")
   end

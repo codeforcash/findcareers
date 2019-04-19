@@ -8,7 +8,7 @@ RSpec.describe ScrapeCompanyWebsiteJob, type: :job do
 
   context "when the careers page cannot be found" do
     it "does not propagate the exception" do
-      expect(CompanyWebsite).to receive(:import_jobs).and_raise(CompanyWebsite::PageNotFound)
+      expect(CompanyWebsite).to receive(:import_jobs).and_raise(CompanyWebsite::CareersPageNotFound)
       expect { described_class.perform_now("http://example.com") }.not_to raise_error
     end
   end

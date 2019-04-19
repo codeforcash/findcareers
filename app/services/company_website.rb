@@ -2,8 +2,7 @@ require "code_for_cash/client"
 
 class CompanyWebsite
   Error = Class.new(StandardError)
-  # Better: CareersPageNotFound
-  PageNotFound = Class.new(Error)
+  CareersPageNotFound = Class.new(Error)
 
   class << self
     def import_jobs(website)
@@ -11,7 +10,7 @@ class CompanyWebsite
       cfc = CodeForCash::Client.new(ENV["CODE_FOR_CASH_API_KEY"])
 
       url = find_careers_page(website)
-      raise PageNotFound, "cannot find careers page for #{url}" unless url
+      raise CareersPageNotFound, "cannot find careers page for #{url}" unless url
 
       postings = extract_job_postings(url)
       postings.each do |posting|
