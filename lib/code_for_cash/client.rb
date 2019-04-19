@@ -4,20 +4,20 @@ require "json"
 require "net/http"
 
 module CodeForCash
-  Error = Class.new(StandardError)
-
-  # Server responses that indicate failure
-  RequestError = Class.new(Error)
-
-  # Connection issue
-  ConnectionError = Class.new(Error)
-
   ##
   # Code for Cash API client
   #
 
   class Client
     DEFAULT_ENDPOINT = "https://i.codefor.cash/api/metum"
+
+    Error = Class.new(StandardError)
+
+    # Server responses that indicate failure or a failure processing its response
+    RequestError = Class.new(Error)
+
+    # Connection issue
+    ConnectionError = Class.new(Error)
 
     ##
     # === Arguments
@@ -62,7 +62,7 @@ module CodeForCash
 
     def create_posting(data)
       endpoint = @endpoint.dup
-      endpoint.path = "create"
+      endpoint.path += "/create"
 
       data = data.merge(:key => @apikey)
       data[:employment_type] = data.delete(:remote) == true ? "remote" : "onsite"
@@ -74,24 +74,23 @@ module CodeForCash
         raise ConnectionError, "failed to connect to #{endpoint}: #{e}"
       end
 
-      request_error("#{response.body} (HTTP #{response.status})") if response.status != "200"
+      request_failed("#{response.body} (HTTP #{response.code})") if response.code != "200"
 
-      body = parse_json(response.body)
-      request_error("#{body["message"]} (code #{body["code"]})") if body["status"] == "error"
+      begin
+        body = JSON.parse(response.body)
+      rescue JSON::ParserError => e
+        raise RequestError, "failed to parse response: #{e}"
+      end
 
-      body
+      request_failed("#{body["message"]} (code #{body["code"]})") if body["status"] != "success"
+
+      nil
     end
 
     private
 
-    def request_error(message)
-      raise RequestError, "request failed with response: %s", message
-    end
-
-    def parse_json(s)
-      JSON.parse(s)
-    rescue JSON::ParserError => e
-      raise Error, "failed to parse response: #{e}"
+    def request_failed(message)
+      raise RequestError, "request failed with response: #{message}"
     end
   end
 end
