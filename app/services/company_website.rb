@@ -27,8 +27,6 @@ class CompanyWebsite
     #
 
     def import_jobs(website)
-      url_required(website)
-
       # TODO: pass as an argument..?
       cfc = CodeForCash::Client.new(ENV["CODE_FOR_CASH_API_KEY"])
 
@@ -48,7 +46,7 @@ class CompanyWebsite
           )
           imported += 1
         rescue CodeForCash::Error => e
-          raise Error, "import error, only #{imported}/#{posting.size} imported: #{e}"
+          raise Error, "import error, only #{imported}/#{postings.size} imported: #{e}"
         end
       end
 
@@ -60,11 +58,12 @@ class CompanyWebsite
     #
     # === Returns
     #
-    # The careers page as a String or +nil+ if not found
+    # A +String+: the careers page URL. Or +nil+ if it was not found.
     #
 
     def find_careers_page(website)
-      url_required(website)
+      raise ArgumentError, "website required" unless website.present?
+
       CareersPageProcessor.new.get_careers_page(website)
     end
 
@@ -82,13 +81,8 @@ class CompanyWebsite
     #
 
     def extract_job_postings(careers_page_url)
-      url_required(careers_page_url)
+      raise ArgumentError, "careers page URL required" unless careers_page_url.present?
       CareersPageParser.new.parse(careers_page_url)
-    end
-
-    private
-
-    def url_required(url)
     end
   end
 end
