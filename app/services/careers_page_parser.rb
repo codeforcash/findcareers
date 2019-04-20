@@ -1,18 +1,7 @@
 class CareersPageParser
-  Posting = Struct.new(:title, :description, :url, :part_time, :remote) do
-    def part_time?
-      @part_time = false if @part_time.nil?
-      @part_time
-    end
-
-    def remote?
-      @remote = false if @remote.nil?
-      @remote
-    end
-  end
-
   def parse(url)
     begin
+      # FIXME: close file hande
       page_source = Down.open(url).read
       get_job_counts_from_page_source(page_source, url)
     rescue Down::ClientError => e
@@ -20,6 +9,9 @@ class CareersPageParser
     end
   end
 
+  private
+
+  # FIXME: for Lever we return postings not job counts
   def get_job_counts_from_page_source(page_source, url)
     if page_source.include?('boards.greenhouse.io') || page_source.include?('grnh.se') || page_source.include?('greenhouse-job-board')
       puts "Greenhouse"
