@@ -16,10 +16,7 @@ describe CompanyWebsite, :type => :service do
 
   describe ".extract_job_postings" do
     it "calls CareersPageParser#parse" do
-      klass = instance_double(CareersPageParser)
-      expect(CareersPageParser).to receive(:new).and_return(klass)
-      expect(klass).to receive(:parse).with(@website)
-
+      expect(Postings).to receive(:find).with(@website).and_return([])
       described_class.extract_job_postings(@website)
     end
   end
@@ -29,8 +26,8 @@ describe CompanyWebsite, :type => :service do
 
     it "imports jobs from the given website" do
       expected_postings = [
-        Posting.new("Title 1", "Description 1", "#{@website}/1"),
-        Posting.new("Title 2", "Description 2", "#{@website}/2", true, true)
+        Postings::Posting.new("Title 1", "Description 1", "#{@website}/1"),
+        Postings::Posting.new("Title 2", "Description 2", "#{@website}/2", true, true)
       ]
 
       client = instance_double(CodeForCash::Client)

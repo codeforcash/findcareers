@@ -45,7 +45,7 @@ class CompanyWebsite
             :part_time => posting.part_time?
           )
           imported += 1
-        rescue CodeForCash::Error => e
+        rescue => e
           raise Error, "import error, only #{imported}/#{postings.size} imported: #{e}"
         end
       end
@@ -63,7 +63,6 @@ class CompanyWebsite
 
     def find_careers_page(website)
       raise ArgumentError, "website required" unless website.present?
-
       CareersPageProcessor.new.get_careers_page(website)
     end
 
@@ -82,7 +81,7 @@ class CompanyWebsite
 
     def extract_job_postings(careers_page_url)
       raise ArgumentError, "careers page URL required" unless careers_page_url.present?
-      CareersPageParser.new.parse(careers_page_url)
+      Postings.find(careers_page_url)
     end
   end
 end
