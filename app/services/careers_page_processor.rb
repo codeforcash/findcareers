@@ -110,8 +110,6 @@ class CareersPageProcessor
     return likely_links.first.href
   end
 
-  private
-
   def clean_url(url_string)
     parsed = URI.parse(url_string.to_s)
     parsed.fragment = parsed.query = nil # get rid of the query string parameters
