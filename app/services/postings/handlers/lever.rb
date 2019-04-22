@@ -4,11 +4,14 @@ require "lever_postings"
 module Postings
   module Handlers
     class Lever
-      DOMAIN_NAME_REGEX = %r{\Ajobs\.lever\.co\b}
+      DOMAIN_NAME = "jobs.lever.co"
       DEFAULT_LIMIT = 10
 
-      def self.supports?(name)
-        DOMAIN_NAME_REGEX.match?(name)
+      def self.supports?(page)
+        uri = URI(page)
+        uri.host == DOMAIN_NAME
+      rescue ArgumentError
+        false
       end
 
       ##
@@ -17,10 +20,11 @@ module Postings
       # +NAME+ is the company's listings to retrieve.
       #
 
-      def initialize(website)
-        raise ArgumentError, "unsupported site #{website}" unless self.class.supports?(website)
-        @company = website =~ %r|#{DOMAIN_NAME_REGEX}/(.+)| ? $1 : nil
-        raise ArgumentError, "#{website} does not have the company's name in its path" unless @company
+      def initialize(page)
+        raise ArgumentError, "unsupported site #{page}" unless self.class.supports?(page)
+
+        @company = URI(page).path[1..-1]
+        raise ArgumentError, "#{page} does not have the company's name in its path" unless @company.present?
       end
 
       def find(options = nil)

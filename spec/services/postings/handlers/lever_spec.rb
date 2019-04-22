@@ -2,7 +2,7 @@ require "rails_helper"
 
 
 describe Postings::Handlers::Lever do
-  before { @website = "jobs.lever.co" }
+  before { @website = "http://jobs.lever.co" }
 
   describe ".supports?" do
     it "accepts anythinging beginning with 'jobs.lever.co" do
