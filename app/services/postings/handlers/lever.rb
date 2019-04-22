@@ -42,9 +42,9 @@ module Postings
           break if results.empty?
 
           results.each do |posting|
-            postings << Posting.new(:title => posting.text,
-                                    :description => posting.description,
-                                    :url => posting.hostedUrl)
+            postings << Posting.new(posting.text,
+                                    posting.description,
+                                    posting.hostedUrl)
           end
 
           skip += DEFAULT_LIMIT

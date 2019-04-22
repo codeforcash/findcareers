@@ -27,10 +27,16 @@ describe Postings::Handlers::Lever do
       expect(LeverPostings).to receive(:postings).with("foo", :skip => 10, :limit => 10).and_return([data])
       expect(LeverPostings).to receive(:postings).with("foo", :skip => 20, :limit => 10).and_return([])
 
-      expected_results = [
-        Postings::Posting.new(:title => data.text, :description => data.description, :url => data.hostedUrl)
-      ] * 2
-      expect(lever.find).to eq expected_results
+      results = lever.find
+      expect(results.size).to eq 2
+     
+      expect(results[0].title).to eq "Title"
+      expect(results[0].description).to eq "Desc"
+      expect(results[0].website).to eq "http://example.com/1"
+
+      expect(results[1].title).to eq "Title"
+      expect(results[1].description).to eq "Desc"
+      expect(results[1].website).to eq "http://example.com/1"
     end
   end
 end
