@@ -31,12 +31,14 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'colorize'
 gem 'final_redirect_url'
 gem 'down'
-gem 'lever_postings'
-# ===
 
 gem 'hashie'
 gem 'nokogiri'
 gem 'selenium-webdriver', '3.14.0'
+###
+
+gem 'lever_postings'
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
