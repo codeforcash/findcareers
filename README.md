@@ -13,7 +13,7 @@ Chrome is used via selenium-webdriver. This depends on [installing the ChromeDri
 
 ## API Endpoint
 
-### ~companies/scrape_website~
+### `companies/scrape_website`
 
 Find a website's careers page, extract job postings, and send to CodeForCash.
 
@@ -27,4 +27,4 @@ On error a non-200 is returned with the following structure:
 
 ```json
 { "message": "Description of the problem..." }
-``
+```
