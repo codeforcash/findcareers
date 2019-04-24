@@ -65,8 +65,11 @@ module CodeForCash
       endpoint.path += "/create"
 
       data = data.merge(:key => @apikey)
-      data[:employment_type] = data.delete(:remote) == true ? "remote" : "onsite"
-      data[:time_commitment] = data.delete(:part_time) == true ? "parttime" : "fulltime"
+      is_part_time = data.delete(:part_time) == true
+
+      data[:employment_type] = !is_part_time ? "fte" : "doesnt_say"
+      data[:time_commitment] = is_part_time ? "parttime" : "fulltime"
+      data[:remote_ok] = data.delete(:remote) == true ? "remote_ok" : "remote_not_ok"
 
       begin
         response = Net::HTTP.post(endpoint, JSON.dump(data), "Content-Type" => "application/json")
