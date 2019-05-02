@@ -16,16 +16,13 @@ class CareersPageProcessor
 
   def get_careers_page(url)
     url = self.clean_url url
-    puts "Currently processing: #{url}"
+    logger.debug "Currently processing: #{url}"
+
     links = self.get_links(url)
     likely_links = self.select_careers_pages(links)
 
-
-    puts "Likely links: #{likely_links}"
-
-    if likely_links.empty?
-      return nil
-    end
+    logger.debug "Likely links: #{likely_links}"
+    return if likely_links.empty?
 
     likely_links.each do |link|
 
@@ -154,5 +151,11 @@ class CareersPageProcessor
     else
       url + link
     end
+  end
+
+  private
+
+  def logger
+    Rails.logger
   end
 end
