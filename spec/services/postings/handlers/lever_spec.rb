@@ -29,14 +29,14 @@ describe Postings::Handlers::Lever do
 
       results = lever.find
       expect(results.size).to eq 2
-     
+
       expect(results[0].title).to eq "Title"
       expect(results[0].description).to eq "Desc"
-      expect(results[0].website).to eq "http://example.com/1"
+      expect(results[0].url).to eq "http://jobs.lever.co/1"
 
       expect(results[1].title).to eq "Title"
       expect(results[1].description).to eq "Desc"
-      expect(results[1].website).to eq "http://example.com/1"
+      expect(results[1].url).to eq "http://jobs.lever.co/1"
     end
   end
 end
