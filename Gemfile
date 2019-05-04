@@ -46,6 +46,10 @@ group :development, :test do
   gem 'webmock'
 end
 
+group :test do
+  gem 'shoulda-matchers'
+end
+
 group :development do
   gem 'dotenv-rails'
   gem 'listen', '>= 3.0.5', '< 3.2'
