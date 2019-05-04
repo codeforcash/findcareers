@@ -1,6 +1,6 @@
 module Postings
   module Handlers
-    class JazzHR <  < WebPageSourceHandler
+    class JazzHR < WebPageSourceHandler
       DOMAIN_REGEXP = /\b(?:app.jazz.co|applytojob.com)\b/
 
       def self.supports?(page)
