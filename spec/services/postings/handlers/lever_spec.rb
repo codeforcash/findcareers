@@ -1,11 +1,13 @@
 require "rails_helper"
 
-
 describe Postings::Handlers::Lever do
+  subject { described_class.new(@website + "/foo") }
   before { @website = "http://jobs.lever.co" }
 
+  it { is_expected.to be_a(Postings::Handlers::Handler) }
+
   describe ".supports?" do
-    it "accepts anythinging beginning with 'jobs.lever.co" do
+    it "accepts anything beginning with 'jobs.lever.co" do
       expect(described_class.supports?(@website)).to eq true
       expect(described_class.supports?(@website + "/foo")).to eq true
       expect(described_class.supports?("blah")).to eq false

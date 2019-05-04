@@ -1,11 +1,18 @@
 require "nokogiri"
 require "down"
+#require "postings"
 
 module Postings
   module Handlers
-    Error = Class.new(StandardError)
+    Error = Class.new(Postings::Error)
 
-    class WebPageSourceHandler
+    class Handler
+      def name
+        self.class.name.demodulize
+      end
+    end
+
+    class WebPageSourceHandler < Handler
       attr_reader :page
       protected :page
 

@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require "uri"
 require "lever_postings"
+require "postings"
 
 module Postings
   module Handlers
-    class Lever
+    class Lever < Handler
       DOMAIN_NAME = "jobs.lever.co"
       DEFAULT_LIMIT = 10
 
