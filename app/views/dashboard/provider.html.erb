@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>
+      <%= link_to "Parsing Stats", dashboard_path %>
+      <small>&gt;</small>
+      <%= @provider.name %>
+    </h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <% if @stats.empty? %>
+      <p>No parse attempts have been made.</p>
+    <% else %>
+      <table class="table">
+        <thead>
+          <th>Website</th>
+          <th>Attempts</th>
+          <th>% Succeeded</th>
+          <th colspan="2">% Failed</th>
+
+        </thead>
+        <tbody>
+          <% @stats.each do |website| %>
+            <tr>
+              <td>
+                <% if website.domain %>
+                  <%= link_to website.domain, dashboard_website_path(:id => website.id) %></td>
+                <% else %>
+                  &mdash;
+                <% end %>
+              </td>
+              <td><%= website.total %></td>
+              <td><%= percentage(website.success) %></td>
+              <td><%= percentage(website.failure) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>

@@ -1,6 +1,10 @@
 require "uri"
 
 class CompaniesController < ApplicationController
+  rescue_from StandardError do |e|
+    error 500, e.message
+  end
+
   def scrape_website
     if !valid_url?(params[:url])
       error(400, "http or https URL required")
@@ -12,6 +16,11 @@ class CompaniesController < ApplicationController
   end
 
   private
+
+  def error(status = 500, message = Rack::Utils::HTTP_STATUS_CODES[status])
+    logger.error(message)
+    render :status => status, :json => { :message => message }
+  end
 
   def valid_url?(url)
     return false unless url

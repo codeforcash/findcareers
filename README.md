@@ -10,6 +10,8 @@ Chrome is used via selenium-webdriver. This depends on [installing the ChromeDri
 ## Environment Variables
 
 * `CODE_FOR_CASH_API_KEY` - Used by the Code for Cash API client to create jobs
+* `FIND_CAREERS_USERNAME`/`FIND_CAREERS_PASSWORD` - Username/password used by HTTP auth to access parsing stats dashboard.
+  **If these are not set dashboard access will be unavailable**
 
 ## API Endpoint
 
