@@ -72,12 +72,13 @@ module Postings
       end
 
       def extract_js(url)
-        # FIXME: catch errors
         options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
         driver = Selenium::WebDriver.for(:chrome, options: options)
         driver.get(url)
         ghjs = driver.execute_script('return ghjb_jobs')
         ghjs.count
+      rescue => e
+        raise Error, "failed to extract jobs using headless browser: #{e}"
       end
     end
   end
