@@ -93,9 +93,11 @@ module Postings
       rescue CareersPageNotSupported => e
         ParsingStats::ParseAttempt.failure(domain, url, :careers, e.class.name)
         raise
-      rescue Handlers::Error, ArgumentError => e
+      # FIXME: here until we can add exception handling to CareersPageProcessor
+      #rescue Handlers::Error, ArgumentError => e
+      rescue => e
         ParsingStats::ParseAttempt.failure(domain, url, :careers, e.to_s)
-        raise
+        raise Error, "failed to find jobs: #{e}", e.backtrace
       end
     end
 

@@ -2,7 +2,6 @@
 
 require "uri"
 require "lever_postings"
-require "postings"
 
 module Postings
   module Handlers
@@ -13,7 +12,7 @@ module Postings
       def self.supports?(page)
         uri = URI(page)
         uri.host == DOMAIN_NAME
-      rescue ArgumentError
+      rescue ArgumentError, URI::InvalidURIError
         false
       end
 
