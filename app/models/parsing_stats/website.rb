@@ -16,7 +16,7 @@ module ParsingStats
            cast(sum(w.failure_count) as float)/sum(w.success_count + w.failure_count) failure
         from parsing_stats_websites w
         left join parsing_stats_providers p on p.id = w.provider_id
-        group by w.provider_id
+        group by w.provider_id, p.name
         order by p.name
       SQL
     end
