@@ -1,4 +1,3 @@
-#require "postings/handlers"
 require "uri"
 require "code_for_cash/client"
 
@@ -110,3 +109,5 @@ module Postings
     end
   end
 end
+
+require "postings/handlers"

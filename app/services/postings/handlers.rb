@@ -1,6 +1,5 @@
 require "nokogiri"
 require "down"
-#require "postings"
 
 module Postings
   module Handlers

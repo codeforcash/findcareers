@@ -14,6 +14,34 @@ class TestHandler < Postings::Handlers::Handler
 end
 
 describe Postings do
+  describe ".import" do
+    before { ENV["CODE_FOR_CASH_API_KEY"] = "testing" }
+
+    it "imports and returns postings found on the given website" do
+      expected_postings = [
+        Postings::Posting.new("Title 1", "Description 1", "#{@website}/1"),
+        Postings::Posting.new("Title 2", "Description 2", "#{@website}/2", true, true)
+      ]
+
+      client = instance_double(CodeForCash::Client)
+      allow(CodeForCash::Client).to receive(:new).with(ENV["CODE_FOR_CASH_API_KEY"]).and_return(client)
+
+      expect(described_class).to receive(:find).with(@website).and_return(expected_postings)
+      expected_postings.each do |posting|
+        expect(client).to receive(:create_posting).with(
+                            :title => posting.title,
+                            :description => posting.description,
+                            :website => posting.url,
+                            :remote => posting.remote?,
+                            :part_time => posting.part_time?
+                          )
+      end
+
+      postings = described_class.import(@website)
+      expect(postings).to eq expected_postings
+    end
+  end
+
   describe ".find" do
     before do
       @url = "https://example.com"
