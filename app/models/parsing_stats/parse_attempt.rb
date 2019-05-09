@@ -33,7 +33,7 @@ module ParsingStats
 
       def build_parse_attempt(domain, url, url_type, provider)
         site = ParsingStats::Website.find_or_create_by(:domain => domain)
-        site.provider = ParsingStats::Provider.find_or_create_by(:name => provider) if provider
+        site.provider = ParsingStats::Provider.find_or_create_by!(:name => provider) if provider
         site.parse_attempts.build(:url => url, :url_type => url_type)
       end
     end
