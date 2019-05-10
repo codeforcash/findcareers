@@ -3,7 +3,7 @@
     <h2>
       <%= link_to "Parsing Stats", dashboard_path %>
       <small>&gt;</small>
-      <%= @provider.name %>
+      <%= @provider.name || "Unknown" %>
     </h2>
   </div>
 </div>

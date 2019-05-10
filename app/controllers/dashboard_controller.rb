@@ -6,7 +6,9 @@ class DashboardController < ApplicationController
   end
 
   def provider
-    @provider = ParsingStats::Provider.find(params[:id])
+    # Bit of a hack to find stats for sites with no provider
+    @provider = params[:id] != "-1" ? ParsingStats::Provider.find(params[:id]) : 
+    	          	              ParsingStats::Provider.new(:name => "Unknown")
     @stats = @provider.calculate_statistics
   end
 
