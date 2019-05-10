@@ -1,6 +1,8 @@
 require "uri"
 
 class CompaniesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   rescue_from StandardError do |e|
     error 500, e.message
   end
