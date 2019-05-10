@@ -17,12 +17,11 @@
         <tbody>
           <% @stats.each do |website| %>
             <tr>
-              <!-- <td><%# website.provider&.name || "-" %></td>-->
               <td>
                 <% if website.provider_id %>
                   <%= link_to website.provider_name, dashboard_provider_path(:id => website.provider_id) %>
                 <% else %>
-                  &mdash;
+                  <%= link_to "Unknown", dashboard_provider_path(:id => -1) %>
                 <% end%>
               </td>
               <td><%= website.total %></td>

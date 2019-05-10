@@ -3,7 +3,7 @@
     <h2>
       <%= link_to "Parsing Stats", dashboard_path %>
       <small>&gt;</small>
-      <%= link_to @website.provider&.name, dashboard_provider_path(:id => @website.provider_id) %>
+      <%= link_to @website.provider&.name || "Unknown", dashboard_provider_path(:id => @website.provider_id || -1) %>
       <small>&gt;</small>
       <%= @website.domain %></h2>
   </div>
