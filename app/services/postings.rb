@@ -86,7 +86,8 @@ module Postings
         postings = handler.find
         ParsingStats::ParseAttempt.success(domain, page, :careers, handler.name)
 
-        postings
+        # FIXME: Handlers must return jobs not the count of the jobs found
+        postings.is_a?(Integer) ? [] : postings
       rescue CareersPageNotFound => e
         ParsingStats::ParseAttempt.failure(domain, url, :website, e.class.name)
         raise
