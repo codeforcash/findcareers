@@ -5,7 +5,8 @@
       <small>&gt;</small>
       <%= link_to @website.provider&.name || "Unknown", dashboard_provider_path(:id => @website.provider_id || -1) %>
       <small>&gt;</small>
-      <%= @website.domain %></h2>
+      <%= @website.domain %>
+    </h2>
   </div>
 </div>
 <div class="row">
@@ -23,7 +24,7 @@
         </thead>
         <% @attempts.each do |attempt|  %>
           <tr>
-            <td><%= attempt.url %></td>
+            <td><%= link_to attempt.url, attempt.url %></td>
             <td><%= attempt.url_type %></td>
             <td>
               <% if attempt.detected %>
@@ -32,7 +33,7 @@
                 Failure
               <% end %>
             </td>
-            <td><%= attempt.error || "-" %></td>
+            <td style="width:30%"><%= attempt.error || "-" %></td>
             <td><%= attempt.created_at %></td>
           </tr>
         <% end %>
