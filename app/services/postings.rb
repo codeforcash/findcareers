@@ -84,7 +84,7 @@ module Postings
 
         handler  = klass.new(page)
         postings = handler.find
-        ParsingStats::ParseAttempt.success(domain, url, :careers, handler.name)
+        ParsingStats::ParseAttempt.success(domain, page, :careers, handler.name)
 
         postings
       rescue CareersPageNotFound => e
@@ -96,7 +96,7 @@ module Postings
       # FIXME: here until we can add exception handling to CareersPageProcessor
       #rescue Handlers::Error, ArgumentError => e
       rescue => e
-        ParsingStats::ParseAttempt.failure(domain, url, :careers, e.to_s)
+        ParsingStats::ParseAttempt.failure(domain, page || url, :careers, e.to_s)
         raise Error, "failed to find jobs: #{e}", e.backtrace
       end
     end
