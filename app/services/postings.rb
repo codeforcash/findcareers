@@ -92,7 +92,7 @@ module Postings
         ParsingStats::ParseAttempt.failure(domain, url, :website, e.class.name)
         raise
       rescue CareersPageNotSupported => e
-        ParsingStats::ParseAttempt.failure(domain, url, :careers, e.class.name)
+        ParsingStats::ParseAttempt.failure(domain, page, :careers, e.class.name)
         raise
       # FIXME: here until we can add exception handling to CareersPageProcessor
       #rescue Handlers::Error, ArgumentError => e
