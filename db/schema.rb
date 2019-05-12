@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_05_02_211408) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "parsing_stats_parse_attempts", force: :cascade do |t|
     t.string "url", limit: 512, null: false
     t.integer "url_type", null: false
@@ -19,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_211408) do
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "website_id", null: false
+    t.bigint "website_id", null: false
     t.index ["website_id"], name: "index_parsing_stats_parse_attempts_on_website_id"
   end
 
@@ -34,11 +37,13 @@ ActiveRecord::Schema.define(version: 2019_05_02_211408) do
     t.string "domain", null: false
     t.integer "success_count", default: 0, null: false
     t.integer "failure_count", default: 0, null: false
-    t.integer "provider_id"
+    t.bigint "provider_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["domain"], name: "index_parsing_stats_websites_on_domain", unique: true
     t.index ["provider_id"], name: "index_parsing_stats_websites_on_provider_id"
   end
 
+  add_foreign_key "parsing_stats_parse_attempts", "parsing_stats_websites", column: "website_id", on_delete: :cascade
+  add_foreign_key "parsing_stats_websites", "parsing_stats_providers", column: "provider_id", on_delete: :cascade
 end
