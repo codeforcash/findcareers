@@ -1,12 +1,12 @@
 namespace :postings do
-  desc "Import jobs from WEBSITE"
+  desc "Import job postings from WEBSITE"
   task :import => :environment do
     abort "WEBSITE required" unless ENV["WEBSITE"]
     postings = Postings.import(ENV["WEBSITE"])
     print_postings(postings)
   end
 
-  desc "Find jobs on WEBSITE"
+  desc "Find job postings on WEBSITE"
   task :find => :environment do
     abort "WEBSITE required" unless ENV["WEBSITE"]
     postings = Postings.find(ENV["WEBSITE"])
