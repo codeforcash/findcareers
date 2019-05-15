@@ -72,13 +72,21 @@ module Postings
       end
 
       def extract_js(url)
-        options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
-        driver = Selenium::WebDriver.for(:chrome, options: options)
+        #options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
+        #options.binary = ENV["GOOGLE_CHROME_BIN"]
+        #driver = Selenium::WebDriver.for(:chrome, options: options)
+
+        caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {
+                                                                  "args" => [ "--headless", "--no-sandbox" ]
+                                                                })
+        driver = Selenium::WebDriver.for :remote, url: "https://#{ENV["BROWSERLESS_API_KEY"]}@chrome.browserless.io/webdriver", desired_capabilities: caps
         driver.get(url)
         ghjs = driver.execute_script('return ghjb_jobs')
         ghjs.count
       rescue => e
         raise Error, "failed to extract jobs using headless browser: #{e}"
+      ensure
+        driver.quit if driver
       end
     end
   end

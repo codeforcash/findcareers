@@ -9,12 +9,17 @@ class CareersPageProcessor
     include Hashie::Extensions::MethodAccess
   end
 
-  def initialize
-    options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
-    @@driver = Selenium::WebDriver.for(:chrome, options: options)
-  end
-
   def get_careers_page(url)
+    # options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
+    # options.binary = ENV["GOOGLE_CHROME_BIN"]
+    # @driver = Selenium::WebDriver.for(:chrome, options: options)
+
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {
+                                                              "args" => [ "--headless", "--no-sandbox" ]
+                                                            })
+    @driver = Selenium::WebDriver.for :remote, url: "https://#{ENV["BROWSERLESS_API_KEY"]}@chrome.browserless.io/webdriver", desired_capabilities: caps
+
+
     url = self.clean_url url
     logger.debug "Currently processing: #{url}"
 
@@ -96,7 +101,7 @@ class CareersPageProcessor
       end
 
       begin
-        jobData = @@driver.execute_script('return jobData')
+        jobData = @driver.execute_script('return jobData')
         lever_name = jobData.first['applyLink'].match(/jobs.lever.co\/([^\/]+)/)[1]
         return "https://jobs.lever.co/#{lever_name}"
       rescue Exception => e
@@ -105,6 +110,8 @@ class CareersPageProcessor
     end
 
     return likely_links.first.href
+  ensure
+    @driver.quit if @driver
   end
 
   def clean_url(url_string)
@@ -116,8 +123,8 @@ class CareersPageProcessor
   # Modify this to return href and text
 
   def get_links(url)
-    @@driver.get(url)
-    data = @@driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
+    @driver.get(url)
+    data = @driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
 
     Nokogiri::HTML(data).css("a").map do |link|
       if (href = link.attr("href"))
