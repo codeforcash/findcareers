@@ -8,7 +8,7 @@ module Postings
       end
 
       def find(options = nil)
-        nok = parse_and_download(page)
+        nok = download_and_parse(page)
         script_tags = nok.css('script').map{ |x|
           x.attr('src')
         }.reject(&:nil?).select{ |x|

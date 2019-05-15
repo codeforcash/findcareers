@@ -9,7 +9,7 @@ module Postings
 
       def find(options = nil)
         startup_slug = parse_and_download(page).css('script#angellist_embed').first.attributes['data-startup'].value
-        parse_and_download("https://angel.co/job_profiles/embed?startup=#{startup_slug}").css('a').count
+        download_and_parse("https://angel.co/job_profiles/embed?startup=#{startup_slug}").css('a').count
       end
     end
   end

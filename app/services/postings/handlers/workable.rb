@@ -8,7 +8,7 @@ module Postings
       end
 
       def find(options = nil)
-        parse_and_download(page).css("ul.jobs li.job").count
+        download_and_parse(page).css("ul.jobs li.job").count
       end
     end
   end
