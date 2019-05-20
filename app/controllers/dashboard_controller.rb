@@ -5,9 +5,14 @@ class DashboardController < ApplicationController
     @stats = ParsingStats::Website.calculate_statistics
   end
 
+  def parse_errors
+    @q = ParsingStats::ParseAttempt.includes(:website => %w[provider]).where.not(:error => nil).page(params[:page]).ransack(params[:q])
+    @attempts = @q.result
+  end
+
   def provider
     # Bit of a hack to find stats for sites with no provider
-    @provider = params[:id] != "-1" ? ParsingStats::Provider.find(params[:id]) : 
+    @provider = params[:id] != "-1" ? ParsingStats::Provider.find(params[:id]) :
     	          	              ParsingStats::Provider.new(:name => "Unknown")
     @stats = @provider.calculate_statistics
   end

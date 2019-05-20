@@ -1,0 +1,41 @@
+<div class="col-md-12">
+    <h2>
+        <%= link_to "Parsing Stats", dashboard_path %>
+        <small>&gt;</small>
+        Errors
+    </h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <% if @attempts.empty? %>
+            <p>No parse attempts have been made.</p>
+        <% else %>
+            <%= search_form_for @q, :url => dashboard_parse_errors_path do |f| %>
+                <table class="table">
+                    <thead>
+                        <th>Provider</th>
+                        <th><%= sort_link(@q, :website_domain, "Domain") %></th>
+                        <th>URL</th>
+                        <th><%= sort_link(@q, :url_type, "Type") %></th>
+                        <th>Error</th>
+                        <th>Time</th>
+                    </thead>
+                    <tbody>
+                        <% @attempts.each do |attempt|  %>
+                            <tr>
+                                <th><%= attempt.website.provider&.name || "Unknown" %></th>
+                                <td><%= link_to attempt.website.domain, "http://#{attempt.website.domain}" %></td>
+                                <td><%= link_to attempt.url, attempt.url %></td>
+                                <td><%= attempt.url_type %></td>
+                                <td><%= attempt.error.sub(/\APostings::/, "") %></td>
+                                <td><%= attempt.created_at %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% end %>
+
+            <%= paginate @attempts, :theme => "twitter-bootstrap-4" %>
+        <% end %>
+    </div>
+</div>

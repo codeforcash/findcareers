@@ -12,6 +12,7 @@ gem 'puma', '~> 3.11'
 gem 'bootstrap', '~> 4.3.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
+gem "ransack"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
