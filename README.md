@@ -31,3 +31,35 @@ On error a non-200 is returned with the following structure:
 ```json
 { "message": "Description of the problem..." }
 ```
+
+## SQL For Retrieving Failures
+
+### Careers Page Not Supported
+
+```sql
+select w.domain,
+       p.url,
+       case when p.url_type = 0
+            then 'careers'
+            else 'website'
+       end
+       from parsing_stats_websites w
+       join parsing_stats_parse_attempts p on p.website_id = w.id
+where p.error = 'Postings::CareersPageNotSupported'
+order by w.domain
+```
+
+### Careers Page Not Found
+
+```sql
+select w.domain,
+       p.url,
+       case when p.url_type = 0
+            then 'careers'
+            else 'website'
+       end
+       from parsing_stats_websites w
+       join parsing_stats_parse_attempts p on p.website_id = w.id
+where p.error = 'Postings::CareersPageNotFound'
+order by w.domain
+```
