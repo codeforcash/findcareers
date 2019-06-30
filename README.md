@@ -5,6 +5,14 @@
 1. `gem install bundler`
 1. `cd findcareers && bundle install`
 
+You will encounter this error if you don't have PostgreSQL installed. 
+```
+ERROR:  Error installing pg:
+ERROR: Failed to build gem native extension.
+```
+* Ubuntu: `sudo apt-get install libpq-dev`
+* Mac: `brew install postgresql`
+
 Chrome is used via selenium-webdriver. This depends on [installing the ChromeDriver](https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver).
 
 ## Environment Variables
