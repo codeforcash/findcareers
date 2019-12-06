@@ -7,7 +7,7 @@ ruby '2.5.3'
 gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'sass-rails', '~> 5.0'
